@@ -580,8 +580,12 @@ pub fn terminalOptions(self: *const Config, artifact: TerminalBuildOptions.Artif
             .ghostty => self.version,
             .lib => self.lib_version,
         },
+        // CDXC:GhosttyPerformance 2026-05-08-17:33
+        // zmux Debug builds still need usable embedded terminals. Terminal
+        // page/PageList integrity checks repeatedly scan active output and can
+        // drive WindowServer/GPU load, so keep them only in Zig tests.
         .slow_runtime_safety = switch (self.optimize) {
-            .Debug => true,
+            .Debug => builtin.is_test,
             .ReleaseSafe,
             .ReleaseSmall,
             .ReleaseFast,

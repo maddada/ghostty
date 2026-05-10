@@ -488,6 +488,18 @@ typedef struct {
   uint32_t cell_height_px;
 } ghostty_surface_size_s;
 
+/**
+ * CDXC:NativeTerminals 2026-05-10-05:05
+ * zmux embeds Ghostty surfaces inside AppKit split panes and must read the
+ * effective terminal padding to size panes to whole character cells.
+ */
+typedef struct {
+  uint32_t top_px;
+  uint32_t bottom_px;
+  uint32_t left_px;
+  uint32_t right_px;
+} ghostty_surface_padding_s;
+
 // Config types
 
 // config.Path
@@ -1114,6 +1126,7 @@ GHOSTTY_API void ghostty_surface_set_focus(ghostty_surface_t, bool);
 GHOSTTY_API void ghostty_surface_set_occlusion(ghostty_surface_t, bool);
 GHOSTTY_API void ghostty_surface_set_size(ghostty_surface_t, uint32_t, uint32_t);
 GHOSTTY_API ghostty_surface_size_s ghostty_surface_size(ghostty_surface_t);
+GHOSTTY_API ghostty_surface_padding_s ghostty_surface_padding(ghostty_surface_t);
 GHOSTTY_API uint64_t ghostty_surface_foreground_pid(ghostty_surface_t);
 GHOSTTY_API ghostty_string_s ghostty_surface_tty_name(ghostty_surface_t);
 GHOSTTY_API void ghostty_surface_set_color_scheme(ghostty_surface_t,

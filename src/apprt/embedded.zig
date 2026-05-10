@@ -1282,6 +1282,15 @@ pub const CAPI = struct {
         cell_height_px: u32,
     };
 
+    // CDXC:NativeTerminals 2026-05-10-05:05: Embedded hosts such as zmux need
+    // effective Ghostty padding to align native split sizes to character cells.
+    const SurfacePadding = extern struct {
+        top_px: u32,
+        bottom_px: u32,
+        left_px: u32,
+        right_px: u32,
+    };
+
     // ghostty_clipboard_content_s
     const ClipboardContent = extern struct {
         mime: [*:0]const u8,
@@ -1707,6 +1716,17 @@ pub const CAPI = struct {
             .height_px = surface.core_surface.size.screen.height,
             .cell_width_px = surface.core_surface.size.cell.width,
             .cell_height_px = surface.core_surface.size.cell.height,
+        };
+    }
+
+    /// Return the effective rendered padding for a surface.
+    export fn ghostty_surface_padding(surface: *Surface) SurfacePadding {
+        const padding = surface.core_surface.size.padding;
+        return .{
+            .top_px = padding.top,
+            .bottom_px = padding.bottom,
+            .left_px = padding.left,
+            .right_px = padding.right,
         };
     }
 
